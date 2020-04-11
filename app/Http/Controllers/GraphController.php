@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Charts\CovidGraph;
 
 use Illuminate\Http\Request;
 
@@ -12,7 +13,35 @@ class GraphController extends Controller
     $url_json = file_get_contents($url);
     $get_confirmed_timeseries = json_decode($url_json, true);
 
-    return view('graph')->with('confirmed_cases_timeseries', $get_confirmed_timeseries);
+    //dd($get_confirmed_timeseries);
+    $dataset_for_UK = array();
+    $i=0;
+    foreach($get_confirmed_timeseries['data'] as $confirmed_case){
+
+      if($confirmed_case['Province/State'] == "" && $confirmed_case['Country/Region'] == 'United Kingdom'){
+        for($u=0; $u<sizeOf($get_confirmed_timeseries['data'][$i]['TimeSeries']); $u++){
+          array_push($dataset_for_UK, $get_confirmed_timeseries['data'][$i]['TimeSeries'][$u]['value']);
+        }
+      }
+      $i++;
+    }
+
+    //Create the array with all the dates.
+    $dates_array = array();
+    for($i=0; $i<sizeOf($get_confirmed_timeseries['data'][0]['TimeSeries']); $i++){
+      array_push($dates_array, $get_confirmed_timeseries['data'][0]['TimeSeries'][$i]['date']);
+    }
+
+    $confirmed_chart = new CovidGraph;
+    $confirmed_chart->labels($dates_array);
+    $confirmed_chart->dataset('United Kingdom', 'line', $dataset_for_UK);
+
+    $data = [
+        'confirmed_cases_timeseries' => $get_confirmed_timeseries,
+        'confirmed_chart', $confirmed_chart,
+    ];
+
+    return view('graph')->with('confirmed_cases_timeseries', $get_confirmed_timeseries)->with('confirmed_chart', $confirmed_chart);
 
   }
 
