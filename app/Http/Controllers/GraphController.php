@@ -47,12 +47,20 @@ class GraphController extends Controller
   public function store(Request $request)
   {
     $get_confirmed_timeseries = $this->getJson(); //Store the entire Json into this variable.
-    $dataset_for_a_country = $this->get_country_confirmed_stats($request->countries, $get_confirmed_timeseries); //Store a country's timeseries data into this variable.
+    $dataset_for_a_country1 = $this->get_country_confirmed_stats($request->countries1, $get_confirmed_timeseries); //Store a country's timeseries data into this variable.
+    $dataset_for_a_country2 = $this->get_country_confirmed_stats($request->countries2, $get_confirmed_timeseries);
+    $dataset_for_a_country3 = $this->get_country_confirmed_stats($request->countries3, $get_confirmed_timeseries);
+    $dataset_for_a_country4 = $this->get_country_confirmed_stats($request->countries4, $get_confirmed_timeseries);
+    $dataset_for_a_country5 = $this->get_country_confirmed_stats($request->countries5, $get_confirmed_timeseries);
     $dates_array = $this->get_dates($this->getJson()); //Create the array with all the dates.
 
     $confirmed_chart = new CovidGraph;
     $confirmed_chart->labels($dates_array);
-    $confirmed_chart->dataset($request->countries, 'line', $dataset_for_a_country);
+    $confirmed_chart->dataset($request->countries1, 'line', $dataset_for_a_country1);
+    $confirmed_chart->dataset($request->countries2, 'line', $dataset_for_a_country2);
+    $confirmed_chart->dataset($request->countries3, 'line', $dataset_for_a_country3);
+    $confirmed_chart->dataset($request->countries4, 'line', $dataset_for_a_country4);
+    $confirmed_chart->dataset($request->countries5, 'line', $dataset_for_a_country5);
 
     $data = [
         'confirmed_cases_timeseries' => $get_confirmed_timeseries,

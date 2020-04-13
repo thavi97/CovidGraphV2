@@ -13,10 +13,46 @@ $(document).ready(function(){
   <div id="app">
     {!! $confirmed_chart->container() !!}
   </div>
+  <div>
+    <h5>Add countries to the graph</h5>
+  </div>
   <form method="POST" action="/">
     @csrf
     <div id="country_select" class="form-group col-lg-3">
-      <select id="countries" name="countries" class="form-control">
+      <select id="countries1" name="countries1" class="form-control">
+        <option value="">Empty</option>
+        @foreach($confirmed_cases_timeseries['data'] as $confirmed_case)
+          @if($confirmed_case['Province/State'] == "")
+            <option value="{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}">{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}</option>
+          @endif
+        @endforeach
+      </select>
+      <select id="countries2" name="countries2" class="form-control">
+        <option value="">Empty</option>
+        @foreach($confirmed_cases_timeseries['data'] as $confirmed_case)
+          @if($confirmed_case['Province/State'] == "")
+            <option value="{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}">{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}</option>
+          @endif
+        @endforeach
+      </select>
+      <select id="countries3" name="countries3" class="form-control">
+        <option value="">Empty</option>
+        @foreach($confirmed_cases_timeseries['data'] as $confirmed_case)
+          @if($confirmed_case['Province/State'] == "")
+            <option value="{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}">{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}</option>
+          @endif
+        @endforeach
+      </select>
+      <select id="countries4" name="countries4" class="form-control">
+        <option value="">Empty</option>
+        @foreach($confirmed_cases_timeseries['data'] as $confirmed_case)
+          @if($confirmed_case['Province/State'] == "")
+            <option value="{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}">{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}</option>
+          @endif
+        @endforeach
+      </select>
+      <select id="countries5" name="countries5" class="form-control">
+        <option value="">Empty</option>
         @foreach($confirmed_cases_timeseries['data'] as $confirmed_case)
           @if($confirmed_case['Province/State'] == "")
             <option value="{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}">{{$confirmed_case[str_replace("'", "\\'", 'Country/Region')]}}</option>
@@ -26,7 +62,6 @@ $(document).ready(function(){
     </div>
     <input type="submit" value="Submit">
   </form>
-<button id="btn1">Append text</button>
 </div>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js charset=utf-8></script>
 {!! $confirmed_chart->script() !!}
